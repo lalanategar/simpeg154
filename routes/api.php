@@ -22,7 +22,7 @@ Route::get('pegawai', 'API\PegawaiController@index');
 //tampil 1 data
 Route::get('pegawai/{data}', 'API\PegawaiController@show');
 // Route Hapus Data
-Route::delete('pegawai/{data}', 'API\PegawaiController@destroy');
+Route::delete('pegawai/{data}', 'API\PegawaiController@destroy')->middleware('auth:api');
 // Route Tambah Data
 Route::post('pegawai', 'API\PegawaiController@store')->middleware('auth:api');
 // Route Update Data
@@ -42,4 +42,23 @@ Route::post('jabatan', 'API\JabatanController@store')->middleware('auth:api');
 // Route Update Data
 Route::patch('jabatan/{id}', 'API\JabatanController@update')->middleware('auth:api');
 
+// Pass
+Route::get('password', function() {
+return bcrypt('lana');
+});
+
+
+Route::group([
+
+    'middleware' => 'api',
+    'prefix' => 'auth'
+
+], function ($router) {
+
+    Route::post('login', 'AuthController@login');
+    Route::post('logout', 'AuthController@logout');
+    Route::post('refresh', 'AuthController@refresh');
+    Route::post('me', 'AuthController@me');
+
+});
 
